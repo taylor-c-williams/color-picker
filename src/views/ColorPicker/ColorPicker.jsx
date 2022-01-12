@@ -4,15 +4,14 @@ import Display from '../../components/Display/Display';
 import styles from './ColorPicker.css';
 
 export default function ColorPicker() {
-  const affirmation = useAffirmation(bgColor, fgColor);
-  const [didChangeColor, bgColor, fgColor, content, handleChange] =
-    useColorPicker();
+  const [colorData, handleChange] = useColorPicker();
+  const affirmation = useAffirmation({ ...colorData });
 
   return (
     <>
       <fieldset className={styles.colorPickerForm}>
         <legend>
-          {didChangeColor
+          {colorData.didChangeColor
             ? affirmation
             : 'Pick some colors and a message to display!'}
         </legend>
@@ -20,25 +19,29 @@ export default function ColorPicker() {
           type="color"
           name="fgColor"
           aria-label="foreground color"
-          value={fgColor}
+          value={colorData.fgColor}
           onChange={handleChange}
         />
         <input
           type="color"
           name="bgColor"
           aria-label="background color"
-          value={bgColor}
+          value={colorData.bgColor}
           onChange={handleChange}
         />
         <input
           type="text"
           name="content"
           aria-label="content"
-          value={content}
+          value={colorData.content}
           onChange={handleChange}
         />
       </fieldset>
-      <Display content={content} bgColor={bgColor} fgColor={fgColor} />
+      <Display
+        content={colorData.content}
+        bgColor={colorData.bgColor}
+        fgColor={colorData.fgColor}
+      />
     </>
   );
 }
